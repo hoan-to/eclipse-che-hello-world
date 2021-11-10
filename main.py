@@ -8,7 +8,7 @@ from ecgdetectors import Detectors
 def getData():
     
     token_url = "https://auth.dlr.wobcom.tech/auth/realms/default/protocol/openid-connect/token"
-    test_api_url = "https://api.dlr.wobcom.tech/quantumleap/v2/entities/urn:ngsiv2:Ecg:Patient01?limit=10000"
+    test_api_url = "https://api.dlr.wobcom.tech/quantumleap/v2/entities/urn:ngsiv2:Ecg:Patient01?limit=17"
 
     #Resource owner (enduser) credential
     RO_user = input('Enduser netid: ')
@@ -30,7 +30,7 @@ def getData():
     print(api_call_headers)
     api_call_response = requests.get(test_api_url, headers=api_call_headers, verify=False)
 
-    return api_call_response.text
+    return np.array(json.loads(api_call_response.text)["attributes"][2]["values"])
 
 def medfilt(data, k=17):
     """Apply a length-k median filter to a 1D-array data.
@@ -156,4 +156,4 @@ def bpm_check(data):
 
 
 if __name__ == '__main__':
-    print getData()
+    print(getData())
